@@ -7,7 +7,7 @@
  * @a: first integer
  * @b: second integer
  *
- * Retuen: product of two integers
+ *Return: product of two integers
  */
 
 int mul(int a, int b)
