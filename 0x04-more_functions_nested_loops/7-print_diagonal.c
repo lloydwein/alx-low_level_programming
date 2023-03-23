@@ -3,23 +3,27 @@
 /**
  * print_diagonal - draws a diagonal line on the terminal
  * Description: a function
- * @n: number of times the character \ should be printed
+ * @n: number of times the character \ should be printted
+ * Return: void
  */
 
 void print_diagonal(int n)
 {
-	int postn, space;
+	int x = 0, xx;
 
-	if (n <= 0)
-		_putchar('\n');
-	else
+	while (x < n && n > 0)
 	{
-		for (postn = 1; postn <= n; ++postn)
+		xx = 0;
+		while (xx < x)
 		{
-			for (space = 1; space <= postn; ++space)
-				_putchar(' ');
-			_putchar(92); /*is equal to '/' char*/
-			_putchar('\n');
+			_putchar(' ');
+			xx++;
 		}
+
+		_putchar('\\');
+		_putchar('\n');
+		x++;
 	}
+	if (x == 0)
+		_putchar('\n');
 }
