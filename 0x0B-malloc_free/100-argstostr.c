@@ -13,13 +13,13 @@
 char *argstostr(int ac, char **av)
 {
 	char *string;
-	int arg1, arg2, arg3, length;
+	int arg1, arg2, arg3 = 0, length = 0;
 
 	if (ac == 0 || av == NULL)
 		return (0);
 	for (arg1 = 0; arg1 < ac; arg1++)
 	{
-		for (arg2 = 0; av[arg1][arg2]; arg2++)
+		for (arg2 = 0; av[arg1][arg2] != '\0'; arg2++)
 		{
 			length++;
 		}
