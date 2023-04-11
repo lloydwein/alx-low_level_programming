@@ -1,83 +1,85 @@
 #include "main.h"
 
 /**
- * wordcount - counts words and the letters in them
- * @s: string to count
- * @pos: position of the word to count characters from
- * @char1: position of the first letter of the word
- * if pos = 0, count the number of chars in the word
- * else count number of words
- * Return: wordcount if pos == 0,
- * length of word if pos > 0,
- * position of word if pos > 0 && firstchar > 0
+ * wordcount - counts number of words
+ * @str: string
+ *
+ * Return: int
  */
-int wordcount(char *s, int pos, char char1)
+int wordcount(char *str)
 {
-	int i, wc, cc, tmp;
+	int l, wc;
 
-	s[0] != ' ' ? (wc = 1) : (wc = 0);
-	for (i = 0, tmp = 0; s[i]; i++)
+	l = 0, wc = 0;
+	if (*(str + l) == ' ')
+		l++;
+	while (*(str + l))
 	{
-		if (s[i] == ' ' && s[i + 1] != ' ' && s[i + 1] != '\0' && tmp == 0)
-		{
+		if (*(str + l) == ' ' && *(str + l - 1) != ' ')
 			wc++;
-			tmp = 1;
-		}
-		if (pos > 0 && pos == wc)
-		{
-			if (pos > 0 && pos == wc && char1 > 0)
-				return (i);
-			for (cc = 0; s[i + cc + 1] != ' '; cc++)
-				;
-			return (cc);
-		}
-		if (s[i] == ' ')
-			tmp = 0;
+		if (*(str + l) != ' '  && *(str + l + 1) == 0)
+			wc++;
+		l++;
 	}
 	return (wc);
 }
+
 /**
- * strtow - convert a string into a 2d array of words
- * @str: string to convert
- * Return: double pointer to 2d array
+ * _trspace - Moves adress to remove trailig whitespaces
+ * @str: string
+ *
+ * Return: Pointer
+ */
+char *_trspace(char *str)
+{
+	while (*str == ' ')
+		str++;
+	return (str);
+}
+
+/**
+ * strtow - splits a string into words
+ * @str: string
+ *
+ * Return: Double Pointer
  */
 char **strtow(char *str)
 {
-	int wc, wordlen, getfirstchar, len = 0, i = 0, j = 0;
-	char **pointer;
+	char **s, *ts;
+	int l, l2, wc, i, j, fr, k;
 
-	for (len = 0; str[len]; len++)
-		;
-	if (str == NULL)
+	if (str == NULL || *str == 0)
 		return (0);
-	wc = wordcount(str, 0, 0);
-	if (len == 0 || wc == 0)
+	fr = 0;
+	wc = wordcount(str);
+	if (wc == 0)
 		return (0);
-	pointer = malloc((wc + 1) * sizeof(void *));
-	if (pointer == NULL)
+	s = malloc((wc + 1) * sizeof(char *));
+	if (s == 0)
 		return (0);
-	for (i = 0, wordlen = 0; i < wc; i++)
+	ts = _trspace(str);
+	for (i = 0; i < wc; i++)
 	{
-		wordlen = wordcount(str, i + 1, 0);
-		if (i == 0 && str[i] != ' ')
-			wordlen++;
-		pointer[i] = malloc(wordlen * sizeof(char) + 1);
-		if (pointer[i] == NULL)
+		l = 0;
+		while (*(ts + l) != ' ' && *(ts + l) != 0)
+			l++;
+		s[i] = malloc((l + 1) * sizeof(char));
+		if (s[i] == 0)
 		{
-			for ( ; i >= 0; --i)
-				free(pointer[i]);
-			free(pointer);
-			return (0);
+			fr = 1;
+			break;
 		}
-		getfirstchar = wordcount(str, i + 1, 1);
-		if (str[0] != ' ' && i > 0)
-			getfirstchar++;
-		else if (str[0] == ' ')
-			getfirstchar++;
-		for (j = 0; j < wordlen; j++)
-			pointer[i][j] = str[getfirstchar + j];
-		pointer[i][j] = '\0';
+		for (j = 0, l2 = 0; l2 < l; l2++, j++)
+			s[i][j] = *(ts + l2);
+		s[i][j] = '\0';
+		ts = _trspace(ts + l);
 	}
-	pointer[i] = NULL;
-	return (pointer);
+	s[i] = NULL;
+	if (fr == 1)
+	{
+		for (k = 0; k <= i; k++)
+			free(s[k]);
+		free(s);
+	}
+	return (s);
 }
