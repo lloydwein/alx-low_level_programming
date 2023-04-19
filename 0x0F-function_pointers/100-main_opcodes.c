@@ -10,7 +10,7 @@
 
 int main(int argc, char *argv[])
 {
-	short byte, number;
+	int byte, number;
 
 	if (argc != 2)
 	{
@@ -18,22 +18,13 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 	
-	byte = atoi(argv[1]);
+	byte = atoi(argv[number]);
 	if (byte < 0)
 	{
 		printf("Error\n");
 		exit(2);
 	}
-	if (byte == 0)
-	{
-		putchar('\n');
-		return (0);
-	}
-	printf("%02x ", *((unsigned char *)(main)));
-	for (number = 0; number < byte; ++number)
-	{
-		printf(" %02x", *((unsigned char *)(main + number)));
-	}
-	putchar('\n');
-	exit(EXIT_SUCCESS);
+	system("gcc 100-main_opcodes.c -c");
+	system("objdump -D 100-main_opcodes.o");
+	return (0);
 }
