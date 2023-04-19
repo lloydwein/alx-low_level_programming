@@ -10,23 +10,13 @@
 
 int (*get_op_func(char *s))(int, int)
 {
+	int num;
 	op_t ops[] = {
 		{"+", op_add},
-		{"-", op_sub},
-		{"*", op_mul},
-		{"/", op_div},
-		{"%", op_mod},
-		{NULL, NULL}
 	};
-	
-	int numbers = 0;
 
-
-	while(numbers < 5)
-	{
-		if (*s == *(ops[numbers].op) && *(s + 1) == '\0')
-			return (ops[numbers].f);
-		numbers++;
-	}
-	return (NULL);
+	num = 0;
+	return (s[num] == '+' ? ops[num].f : s[0] == '-' ? &(op_sub)
+			: s[0] == '*' ? &(op_mul) : s[0] == '/' ? &(op_div)
+			: s[0] == '%' ? &(op_mod) : NULL);
 }
