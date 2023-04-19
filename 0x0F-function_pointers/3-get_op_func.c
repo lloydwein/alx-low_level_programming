@@ -10,7 +10,7 @@
 
 int (*get_op_func(char *s))(int, int)
 {
-	op_t operators[] = {
+	op_t ops[] = {
 		{"+", op_add},
 		{"-", op_sub},
 		{"*", op_mul},
@@ -22,15 +22,11 @@ int (*get_op_func(char *s))(int, int)
 	int numbers = 0;
 
 
-	while(operators[numbers].op)
+	while(numbers < 5)
 	{
-		if (operators[numbers].op[0] == s[0] && s[1] == '\0')
-		{
-			return (operators[numbers].f);
-		}
+		if (*s == *(ops[numbers].op) && *(s + 1) == '\0')
+			return (ops[numbers].f);
 		numbers++;
 	}
-
-	printf("Error\n");
-	exit(99);
+	return (NULL);
 }
